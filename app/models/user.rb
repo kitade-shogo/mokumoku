@@ -82,14 +82,14 @@ class User < ApplicationRecord
     notification_timings.liked_event.present?
   end
 
-  def follow!(user_id)
-    relationships.create!(followed_id: user_id)
+  def follow(user_id)
+    relationships.create(followed_id: user_id)
   end
 
-  def unfollow!(user_id)
-    if relationship = relationships.find_by(followed_id: user_id)
-      relationship.destroy!
-    end
+  def unfollow(user_id)
+    relationship = relationships.find_by(followed_id: user_id)
+    return if relationship.nil?
+    relationship.destroy
   end
 
   def following?(user)
